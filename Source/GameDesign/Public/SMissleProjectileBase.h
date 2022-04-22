@@ -18,7 +18,6 @@ class UParticleSystemComponent;
 class UPointLightComponent;
 class UProjectileMovementComponent;
 class UNiagaraComponent;
-class UStaticMeshComponent;
 
 UCLASS()
 class GAMEDESIGN_API ASMissleProjectileBase : public AActor, public ISGamePlayInterface
@@ -44,11 +43,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UParticleSystemComponent* EffectComp;
 
-  	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UAudioComponent* AudioComp;
-	
-  	UPROPERTY(VisibleAnywhere, Category = "Components")
-	UStaticMeshComponent* StaticMeshComp; 
 
 	UPROPERTY(EditDefaultsOnly, Category = "Effects|Shake")
 	float ImpactShakeInnerRadius;
