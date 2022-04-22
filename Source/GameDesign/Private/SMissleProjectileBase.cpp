@@ -14,11 +14,13 @@ ASMissleProjectileBase::ASMissleProjectileBase()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	StaticMeshComp = CreateDefaultSubobject<UStaticMeshComponent>("StaticMeshComp");
+
 	EffectComp = CreateDefaultSubobject<UParticleSystemComponent>("EffectComp");
 	EffectComp->SetupAttachment(RootComponent);
 	
 	AudioComp = CreateDefaultSubobject<UAudioComponent>("AudioComp");
-	AudioComp->SetupAttachment(RootComponent);
+	AudioComp->SetupAttachment(EffectComp);
 
 	MoveComp = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMoveComp");
 	MoveComp->bRotationFollowsVelocity = true;
@@ -44,6 +46,7 @@ void ASMissleProjectileBase::Tick(float DeltaTime)
 
 void ASMissleProjectileBase::Interact_Implementation(APawn* InstigatorPawn)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Interact with Missle"));
 	ISGamePlayInterface::Interact_Implementation(InstigatorPawn);
 	AController* Controller = GetWorld()->GetFirstPlayerController();
 	Controller->UnPossess();

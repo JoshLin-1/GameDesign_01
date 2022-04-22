@@ -9,6 +9,9 @@
 /**
  * 
  */
+
+class AActor;
+
 UCLASS()
 class GAMEDESIGN_API ASPlayerController : public APlayerController
 {
@@ -16,14 +19,35 @@ class GAMEDESIGN_API ASPlayerController : public APlayerController
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Distance")
-	float TraceDistance; 
+	float TraceDistance;
+	
+
 	
 public:
 	ASPlayerController();
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
+	UFUNCTION()
 	void PrimaryInteract();
 
+	UFUNCTION()
 	virtual void SetupInputComponent() override;
+
+	UFUNCTION()
+	virtual void CalcCamera(float DeltaTime, FMinimalViewInfo& OutResult) override;
+
+	UFUNCTION()
+	void MoveForward(float Value)
+	{
+		if (Value > 0.5)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Controller_Forward"));
+		}
+		else if (Value < -0.5)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Controller_BackWard"));
+		}
+	}
 };
