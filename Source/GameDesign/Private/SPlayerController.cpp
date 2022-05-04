@@ -5,7 +5,9 @@
 
 #include "DrawDebugHelpers.h"
 #include "SGamePlayInterface.h"
+#include "Blueprint/UserWidget.h"
 #include "Camera/CameraActor.h"
+
 
 ASPlayerController::ASPlayerController()
 {
@@ -16,6 +18,29 @@ ASPlayerController::ASPlayerController()
 	TraceDistance = 10000.f; 
 	
 }
+
+// void ASPlayerController::TogglePauseMenu()
+// {
+//
+// 	if(PauseMenuInstance && PauseMenuInstance->IsInViewport())
+// 	{
+// 		PauseMenuInstance->RemoveFromParent();
+// 		PauseMenuInstance = nullptr;
+//
+// 		// bShowMouseCursor = false;
+// 		SetInputMode(FInputModeGameOnly());
+// 		return; 
+// 	}
+// 	
+// 	PauseMenuInstance = CreateWidget<UUserWidget>(this, PauseMenuClass);
+// 	if(PauseMenuInstance)
+// 	{
+// 		PauseMenuInstance->AddToViewport(100);
+//
+// 		// bShowMouseCursor = true;
+// 		SetInputMode(FInputModeUIOnly());
+// 	}
+// }
 
 void ASPlayerController::Tick(float DeltaTime)
 {
@@ -78,6 +103,7 @@ void ASPlayerController::SetupInputComponent()
 	EnableInput(this);
 	InputComponent->BindAction("PrimaryInteract",IE_Pressed, this, &ASPlayerController::PrimaryInteract);
 	InputComponent->BindAxis("Forward", this, &ASPlayerController::MoveForward);
+	// InputComponent->BindAction("PauseMenu", IE_Pressed, this, &ASPlayerController::TogglePauseMenu);
 	
 }
 

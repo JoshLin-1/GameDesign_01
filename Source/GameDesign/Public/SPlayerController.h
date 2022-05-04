@@ -11,6 +11,7 @@
  */
 
 class AActor;
+class UUserWidget;
 
 UCLASS()
 class GAMEDESIGN_API ASPlayerController : public APlayerController
@@ -20,8 +21,9 @@ class GAMEDESIGN_API ASPlayerController : public APlayerController
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Distance")
 	float TraceDistance;
-	
 
+	// UPROPERTY()
+	// UUserWidget* PauseMenuInstance; 
 	
 public:
 	ASPlayerController();
@@ -50,4 +52,5 @@ public:
 			UE_LOG(LogTemp, Warning, TEXT("Controller_BackWard"));
 		}
 	}
+	
 };
