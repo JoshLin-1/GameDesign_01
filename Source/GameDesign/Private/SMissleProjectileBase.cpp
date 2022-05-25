@@ -3,6 +3,7 @@
 
 #include "SMissleProjectileBase.h"
 #include "Components/AudioComponent.h"
+#include "Components/DecalComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
@@ -39,7 +40,7 @@ void ASMissleProjectileBase::Tick(float DeltaTime)
 
 	
 	// UGameplayStatics::PredictProjectilePath(this,   );
-
+	//
 	// FPredictProjectilePathParams ProjectilePathParams;
 	// ProjectilePathParams.StartLocation = FVector(1,3,2);
 }
@@ -73,4 +74,14 @@ void ASMissleProjectileBase::Explode_Implementation()
 
 		Destroy();
 	}
+}
+
+void ASMissleProjectileBase::SetSelected()
+{
+	CursorToWorld->SetVisibility(true);
+}
+
+void ASMissleProjectileBase::SetDeselected()
+{
+	CursorToWorld->SetVisibility(false);
 }

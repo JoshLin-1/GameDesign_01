@@ -70,4 +70,15 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	/** Returns CursorToWorld subobject**/
+	FORCEINLINE class UDecalComponent* GetCursorToWorld() {return CursorToWorld;}
+
+	void SetSelected();
+	void SetDeselected();
+
+private:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Cursor, meta = (AllowPrivateAccess = "True"))
+	class UDecalComponent* CursorToWorld;
+	
+
 };

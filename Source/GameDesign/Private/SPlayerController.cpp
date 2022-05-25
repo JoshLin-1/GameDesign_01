@@ -2,21 +2,30 @@
 
 
 #include "SPlayerController.h"
-
 #include "DrawDebugHelpers.h"
 #include "SGamePlayInterface.h"
-#include "Blueprint/UserWidget.h"
 #include "Camera/CameraActor.h"
+#include "NavigationSystem.h"
+#include "Blueprint/AIBlueprintHelperLibrary.h"
 
 
 ASPlayerController::ASPlayerController()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	bShowMouseCursor = true;
-	bEnableMouseOverEvents = false;
-	bAutoManageActiveCameraTarget = false;
-	TraceDistance = 10000.f; 
+	// bEnableMouseOverEvents = false;
+	DefaultMouseCursor = EMouseCursor::Crosshairs;
+	// bAutoManageActiveCameraTarget = false;
+	TraceDistance = 10000.f;
+
 	
+	
+}
+
+void ASPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+	HUDptr = Cast<ARTSHUD>(GetHUD());
 }
 
 // void ASPlayerController::TogglePauseMenu()
@@ -46,6 +55,10 @@ void ASPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	// PrimaryInteract();
+
+	GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, Hit);
+	MouseLocation = Hit.Location;
+	DrawDebugCircle(GetWorld(), MouseLocation, 32, 64, FColor::Blue);
 }
 
 void ASPlayerController::PrimaryInteract()
@@ -100,11 +113,44 @@ void ASPlayerController::PrimaryInteract()
 void ASPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
-	EnableInput(this);
+	// EnableInput(this);
 	InputComponent->BindAction("PrimaryInteract",IE_Pressed, this, &ASPlayerController::PrimaryInteract);
+	InputComponent->BindAction("LeftMouseClick",IE_Pressed, this, &ASPlayerController::SelectionPressed);
+	InputComponent->BindAction("LeftMouseClick",IE_Released, this, &ASPlayerController::SelectionReleased);
+	InputComponent->BindAction("RightMouseClick", IE_Released, this, &ASPlayerController::MoveReleased);
 	InputComponent->BindAxis("Forward", this, &ASPlayerController::MoveForward);
 	// InputComponent->BindAction("PauseMenu", IE_Pressed, this, &ASPlayerController::TogglePauseMenu);
 	
+}
+
+void ASPlayerController::SelectionPressed()
+{
+	if(HUDptr != nullptr)
+	{
+		HUDptr->InitialPoint = HUDptr->GetMousePos2D();
+		HUDptr->bStartSelecting = true;
+	}
+	
+}
+
+void ASPlayerController::SelectionReleased()
+{
+	HUDptr->bStartSelecting = false;
+	// SelectedActors = HUDptr->FoundActors;
+}
+
+void ASPlayerController::MoveReleased()
+{
+	if(SelectedActors.Num()>0)
+	{
+		for(int i = 0; i<SelectedActors.Num(); i++)
+		{
+			// FHitResult Hit;
+			GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, Hit);
+			FVector MoveLocation = Hit.Location + FVector(i/2*100, i%2*100, 0);
+			// UAIBlueprintHelperLibrary::SimpleMoveToLocation(SelectedActors[i]->GetInstigatorController(), MoveLocation);
+		}
+	}
 }
 
 void ASPlayerController::CalcCamera(float DeltaTime, FMinimalViewInfo& OutResult)

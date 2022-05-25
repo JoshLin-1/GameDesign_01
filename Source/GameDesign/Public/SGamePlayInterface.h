@@ -25,4 +25,14 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent)
 	void Interact(APawn* InstigatorPawn);
+
+	UFUNCTION(BlueprintNativeEvent)
+	void InteractToMousePosition(FVector CursorPosition);
+
+	UFUNCTION(BlueprintNativeEvent)
+	void RightMouseInteract();
+
+	UFUNCTION(BlueprintNativeEvent)
+	void MouseWhellInteract(float Value);
+	
 };

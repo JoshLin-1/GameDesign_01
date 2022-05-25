@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "RTSHUD.h"
 #include "GameFramework/PlayerController.h"
 #include "SPlayerController.generated.h"
 
@@ -10,8 +11,9 @@
  * 
  */
 
+class ARTSHUD;
 class AActor;
-class UUserWidget;
+class ASMissleProjectileBase;
 
 UCLASS()
 class GAMEDESIGN_API ASPlayerController : public APlayerController
@@ -22,24 +24,35 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Distance")
 	float TraceDistance;
 
-	// UPROPERTY()
-	// UUserWidget* PauseMenuInstance; 
-	
+	void SelectionPressed();
+	void SelectionReleased();
+	void MoveReleased();
+
+	UPROPERTY()
+	TArray<ASMissleProjectileBase*> SelectedActors;
+
+	FHitResult Hit; 
+
 public:
 	ASPlayerController();
-	
-	// Called every frame
+
+	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void SetupInputComponent() override;
 	
 	UFUNCTION()
 	void PrimaryInteract();
-
-	UFUNCTION()
-	virtual void SetupInputComponent() override;
+	
 
 	UFUNCTION()
 	virtual void CalcCamera(float DeltaTime, FMinimalViewInfo& OutResult) override;
 
+	UPROPERTY(BlueprintReadWrite, meta=(AllowPrivateAccess = "true") )
+	FVector MouseLocation;
+
+	UPROPERTY()
+	ARTSHUD* HUDptr;
+ 
 	UFUNCTION()
 	void MoveForward(float Value)
 	{
