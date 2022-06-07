@@ -4,6 +4,8 @@
 #include "SMissleSample.h"
 
 #include "RTSHUD.h"
+#include "SWorldUserWidget.h"
+#include "Blueprint/UserWidget.h"
 #include "Components/DecalComponent.h"
 
 
@@ -28,6 +30,25 @@ ASMissleSample::ASMissleSample()
 
 }
 
+// Called when the game starts or when spawned
+void ASMissleSample::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	
+	if(ActiveRemainBullet == nullptr)
+	{
+		ActiveRemainBullet = CreateWidget<USWorldUserWidget>(GetWorld(), RemainBulletWidgetClass);
+		if(ActiveRemainBullet)
+		{
+			ActiveRemainBullet->AttachedActor = this; 
+			ActiveRemainBullet->AddToViewport();
+		}
+	}
+
+	
+}
+
 void ASMissleSample::SetSelected()
 {
 	CursorToWorld->SetVisibility(true);
@@ -36,12 +57,6 @@ void ASMissleSample::SetSelected()
 void ASMissleSample::SetDeSelected()
 {
 	CursorToWorld->SetVisibility(false);
-}
-
-// Called when the game starts or when spawned
-void ASMissleSample::BeginPlay()
-{
-	Super::BeginPlay();
 }
 
 // Called every frame

@@ -8,7 +8,7 @@ public class GameDesign : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "AIModule", "AISupportModule" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "AIModule", "AISupportModule", "UMG" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

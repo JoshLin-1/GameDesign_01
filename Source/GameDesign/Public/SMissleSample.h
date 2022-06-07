@@ -4,11 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "SGamePlayInterface.h"
+#include "SWorldUserWidget.h"
 #include "GameFramework/Actor.h"
 #include "SMissleSample.generated.h"
 
 
 class ARTSHUD; 
+class UUserWidget;
+class USWorldUserWidget;
 
 UCLASS()
 class GAMEDESIGN_API ASMissleSample : public AActor, public ISGamePlayInterface
@@ -30,9 +33,16 @@ public:
 	void SetSelected();
 	void SetDeSelected();
 
+
 protected:
+
+	USWorldUserWidget* ActiveRemainBullet;
+	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	TSubclassOf<UUserWidget> RemainBulletWidgetClass; 
 
 
 public:	
